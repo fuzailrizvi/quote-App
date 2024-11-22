@@ -1,3 +1,12 @@
+const User = require("./models/User.model");
+const mongoose=require('mongoose');
+const bcrypt=require('bcrypt');
+const QuoteModel = require("./models/Quote.model");
+
+mongoose.connect('mongodb://127.0.0.1:27017/QuoteDB')
+.then(()=>console.log('DB Connected Successfully'))
+.catch((err)=>console.log(err));
+
 const randomQuotesGenerator=()=>{
     const randomQuotes=[
         "The best way to predict the future is to create it.",
@@ -16,7 +25,32 @@ const randomQuotesGenerator=()=>{
     
 }
 
-const seedDB=()=>{
+
+const seedDB=async ()=>{
+    await User.deleteMany({});
+    await QuoteModel.deleteMany({}); 
+    const users=[];
+    for(let i=1;i<6;i++){
+        const hashedPassword=await bcrypt.hash("1234",10);
+        const user=await User.create({
+            email:`user${i}@example.com`,
+            password:hashedPassword,
+            fullName:`user${i}`
+        })
+
+        users.push(user);
+    }
+
+    for(let user of users){
+        for(let i=1;i<4;i++){
+            await QuoteModel.create({
+                text:randomQuotesGenerator(),
+                author:user._id,
+            })
+        }
+    }
+    
     
 }
 
+seedDB();
