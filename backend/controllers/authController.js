@@ -3,13 +3,13 @@ const UserModel = require("../models/User.model");
 const { createToken } = require("../utils/createToken");
 
 const register = async (req, res) => {
-  console.log(req.body);
+ 
   try {
     
     const { email, password, fullName } = req.body;
     const userExist = await UserModel.findOne({ email });
     if (userExist) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "User Already Exist",
       });
     }

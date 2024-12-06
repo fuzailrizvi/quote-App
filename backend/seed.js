@@ -1,7 +1,7 @@
 const User = require("./models/User.model");
 const mongoose=require('mongoose');
 const bcrypt=require('bcrypt');
-const QuoteModel = require("./models/Quote.model");
+const Quote = require("./models/Quote.model");
 
 mongoose.connect('mongodb://127.0.0.1:27017/QuoteDB')
 .then(()=>console.log('DB Connected Successfully'))
@@ -21,14 +21,15 @@ const randomQuotesGenerator=()=>{
         "The only way to do great work is to love what you do.",
     ];
 
-    return randomQuotes[Math.random(Math.random()*randomQuotes.length)];
+    return randomQuotes[Math.floor(Math.random()*randomQuotes.length)];
     
 }
 
 
 const seedDB=async ()=>{
-    await User.deleteMany({});
-    await QuoteModel.deleteMany({}); 
+    try {
+        await User.deleteMany({});
+    await Quote.deleteMany({}); 
     const users=[];
     for(let i=1;i<6;i++){
         const hashedPassword=await bcrypt.hash("1234",10);
@@ -43,11 +44,18 @@ const seedDB=async ()=>{
 
     for(let user of users){
         for(let i=1;i<4;i++){
-            await QuoteModel.create({
+            await Quote.create({
                 text:randomQuotesGenerator(),
                 author:user._id,
             })
         }
+    }
+
+    mongoose.connection.close();
+    } catch (error) {
+        console.log('Error in seeding DB',error);
+        mongoose.connection.close();
+        
     }
     
     
