@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import  axios  from "axios";
-const Login = ({handleLogin}) => {
+import { useEffect } from 'react';
+const Login = ({handleLogin,isAuthenticated}) => {
   const[email,setEmail]=useState("");
   const[password,setPassword]=useState("");
-  
+  const navigate=useNavigate();
+
   async function submitHandler(){
    try {
     const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/login`,{
@@ -25,6 +27,12 @@ const Login = ({handleLogin}) => {
    
     
   }
+
+  useEffect(()=>{
+    if(isAuthenticated){
+      navigate("/");
+    }
+  })
   
   return (
     <div>
