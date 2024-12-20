@@ -13,6 +13,13 @@ const App = () => {
   useEffect(()=>{
     setIsAuthenticated(localStorage.getItem('token'))
   },[isAuthenticated])
+
+  function logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    navigate('/login');
+  }
   
   function handleLogin(id,email,fullName,token){
       localStorage.setItem('token',token);
@@ -27,12 +34,15 @@ const App = () => {
   return (
     <div className='max-h-screen min-h-screen dark:bg-slate-800'>
       
-      <Navbar/>
+      <Navbar isAuthenticated={isAuthenticated} logout={logout}/>
+      <div className='dark:bg-slate-800 max-w-[600px] mx-auto'>
       <Routes>
         <Route path={'/'} element={<Home/>}/>
         <Route path={'/login'} element={<Login isAuthenticated={isAuthenticated} handleLogin={handleLogin}/>}/>
         <Route path={'/register'} element={<Register/>}/>
       </Routes>
+      </div>
+      
      
       
     </div>
