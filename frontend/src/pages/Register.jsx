@@ -15,7 +15,7 @@ const Register = () => {
     try {
       
     const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/register`,
-      {email,password,confirmPassword,fullName});
+      {email,password,fullName});
       //  console.log(res);
 
       if(res.status==201){
