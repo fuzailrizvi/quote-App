@@ -34,6 +34,8 @@ const createQuote = async (req, res) => {
     const { text } = req.body;
     const userId = req.user.id;
     const user = await UserModel.findById(userId);
+    // console.log(user);
+    
     const quote = await QuoteModel.create({ text, author: user });
     res.status(201).json(quote);
   } catch (error) {

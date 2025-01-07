@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Quote from '../components/Quote';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,22 @@ const Home = () => {
   const navigate=useNavigate();
 
 
+  // async function fetchQuotes(){
+  //   try {
+  //     const response=await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/quotes`,{
+  //     headers:{
+  //       Authorization:`Bearer ${localStorage.getItem('token')}`
+  //     }
+  //   });
+  //   console.log(response);
+  //   } catch (error) {
+      
+  //   }
+    
+  // }
+
+  // useEffect(()=>{fetchQuotes(),[]});
+  
   async function submitHandler(){
     try {
       const response=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/quotes`,{
@@ -18,19 +34,22 @@ const Home = () => {
           Authorization:`Bearer ${localStorage.getItem('token')}`
         }
       })
-  
+      
       if(response.status==201){
         setQuotes(prev=>[...prev,response.data]);
         alert('Quote Posted Successfully');
         setText("");
       }
       if(response.status==401){
+        setIsAuthenticated(false);
         navigate('/login');
       }
     } catch (error) {
-      alert(error.response.data.message);
-
-      
+       alert(error.response.data.message);
+            if(error.response.status === 401){
+              setIsAuthenticated(false);
+              navigate('/login');
+      }
     }
     
   }
