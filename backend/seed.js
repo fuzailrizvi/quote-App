@@ -36,7 +36,7 @@ const seedDB=async ()=>{
         const user=await User.create({
             email:`user${i}@example.com`,
             password:hashedPassword,
-            fullName:`user${i}`
+            fullName:`user ${i}`
         })
 
         users.push(user);
