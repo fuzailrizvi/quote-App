@@ -1,29 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import Quote from '../components/Quote';
-import { useNavigate } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
 
-const Home = () => {
+
+
+const Home = ({logout}) => {
   const [text,setText]=useState("");
   const [quotes,setQuotes]=useState([]);
-  const navigate=useNavigate();
+  
 
 
-  // async function fetchQuotes(){
-  //   try {
-  //     const response=await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/quotes`,{
-  //     headers:{
-  //       Authorization:`Bearer ${localStorage.getItem('token')}`
-  //     }
-  //   });
-  //   console.log(response);
-  //   } catch (error) {
-      
-  //   }
+  async function fetchQuotes(){
+    try {
+      const response=await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/quotes`,{
+      headers:{
+        Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  
     
-  // }
+    if(response.status==200){
+       setQuotes(response.data);
+      
+    }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+    
+  }
 
-  // useEffect(()=>{fetchQuotes(),[]});
+  useEffect(()=>{fetchQuotes(),[]});
   
   async function submitHandler(){
     try {
@@ -34,21 +41,17 @@ const Home = () => {
           Authorization:`Bearer ${localStorage.getItem('token')}`
         }
       })
+
       
       if(response.status==201){
         setQuotes(prev=>[...prev,response.data]);
-        alert('Quote Posted Successfully');
+        toast.success('Quote Posted Successfully');
         setText("");
       }
-      if(response.status==401){
-        setIsAuthenticated(false);
-        navigate('/login');
-      }
     } catch (error) {
-       alert(error.response.data.message);
+       toast.error(error.response.data.message);
             if(error.response.status === 401){
-              setIsAuthenticated(false);
-              navigate('/login');
+              logout();
       }
     }
     

@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import {Toaster} from 'react-hot-toast'
+import Profile from './pages/Profile'
 
 const App = () => {
   const [isAuthenticated,setIsAuthenticated]=useState("");
@@ -34,12 +36,14 @@ const App = () => {
   return (
     <div className='max-h-screen min-h-screen dark:bg-slate-800'>
       
+      <Toaster/>
       <Navbar isAuthenticated={isAuthenticated} logout={logout}/>
       <div className='dark:bg-slate-800 max-w-[600px] mx-auto'>
       <Routes>
-        <Route path={'/'} element={<Home/>}/>
+        <Route path={'/'} element={<Home logout={logout}/>}/>
         <Route path={'/login'} element={<Login isAuthenticated={isAuthenticated} handleLogin={handleLogin}/>}/>
         <Route path={'/register'} element={<Register/>}/>
+        <Route path={'/profile'} element={<Profile user={user}/>}/>
       </Routes>
       </div>
       

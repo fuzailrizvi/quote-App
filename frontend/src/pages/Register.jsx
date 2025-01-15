@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { Toaster, toast } from 'react-hot-toast';
 
 const Register = () => {
   const[email,setEmail]=useState("");
@@ -8,7 +9,7 @@ const Register = () => {
   const[firstName,setFirstName]=useState("");
   const[lastName,setLastName]=useState("");
   const navigate=useNavigate();
-  const fullName=firstName+" "+lastName;
+  const fullName=firstName.trim()+" "+lastName.trim();
   
   async function submitHandler(){
     
@@ -19,14 +20,14 @@ const Register = () => {
       //  console.log(res);
 
       if(res.status==201){
-        alert('User Created Successfully');
+        toast.success('User Created Successfully');
         navigate("/login");
 
       }
     
       
     } catch (error) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message);
     }
     
     
