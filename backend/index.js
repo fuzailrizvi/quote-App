@@ -5,6 +5,7 @@ const PORT=process.env.PORT||5000;
 const authrouter=require('./routes/auth.routes');
 const mongoose=require('mongoose');
 const quoteRouter=require('./routes/quote.routes');
+const userRouter=require('./routes/user.routes');
 const cors=require('cors');
 
 mongoose.connect('mongodb://127.0.0.1:27017/QuoteDB')
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/api/v1/auth",authrouter);
 app.use("/api/v1/quotes",quoteRouter);
+app.use("/api/v1/users",userRouter);
 
 
 
