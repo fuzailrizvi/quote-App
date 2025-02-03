@@ -7,7 +7,10 @@ router.get('/me',isAuthenticated,async (req,res)=>{
     try {
         const userId=req.user.id;
     const user=await UserModel.findById(userId).select('-password');
-    const quotes=await QuoteModel.find({author:userId});
+    const quotes=await QuoteModel.find({author:userId}).populate({
+        path:'author',
+        select:'fullName'
+      });
     res.status(200).json({
         user,
         quotes
