@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Quote = ({quote}) => {
   
-    // console.log(quote);
+    const [edit,setEdit]=useState(false);
     
     return (
     <div className='flex gap-2 border-b-2 mb-6 pb-6 dark:text-white'>
@@ -13,7 +13,12 @@ const Quote = ({quote}) => {
       <p className='font-merriweather'>“{quote.text}”</p>
       <p>- {quote.author.fullName}</p>
     </div>
+    <span className='text-blue-500 cursor-pointer hover:underline'>
+        {edit?"Cancel":"Edit"}
+    </span>
   </div>
+
+  
   )
 }
 
