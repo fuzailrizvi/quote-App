@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Quote from '../components/Quote';
+import toast from 'react-hot-toast';
 
 
 const Profile = ({user}) => {
@@ -21,7 +22,8 @@ const Profile = ({user}) => {
         setUserQuotes(res.data.quotes);
       }
     } catch (error) {
-      alert(error.response.data.message);
+      
+      toast.error(error.response.data.message)
     }
 
     
