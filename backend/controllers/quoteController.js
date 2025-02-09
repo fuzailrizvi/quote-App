@@ -57,7 +57,10 @@ const updateQuote = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const quote = await QuoteModel.findByIdAndUpdate(id, body);
+    const quote = await QuoteModel.findByIdAndUpdate(id, body).populate({
+      path:'author',
+      select:'fullName'
+    });
     res.status(200).json(quote);
   } catch (error) {
     console.log(error);

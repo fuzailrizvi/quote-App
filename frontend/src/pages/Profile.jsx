@@ -29,13 +29,19 @@ const Profile = ({user}) => {
     
   }
 
+  function updateQuote(quoteData){
+    const newQuotes = userQuotes.map(quote => 
+                                  quote._id === quoteData._id ? {...quoteData}: quote)
+    setUserQuotes(newQuotes);
+  }
+
   useEffect(()=>{
     getUserQuotes();
   },[])
   
   return (
     <div>
-      {userQuotes.map(quote=> <Quote key={quote._id} quote={quote}/>)}
+      {userQuotes.map(quote=> <Quote key={quote._id} quote={quote} updateQuote={updateQuote}/>)}
     </div>
   )
 }

@@ -1,13 +1,33 @@
 import React, { useState } from 'react'
 import {useLocation} from 'react-router-dom'
-const Quote = ({quote}) => {
+import axios from 'axios'
+import { toast } from 'react-hot-toast';
+
+const Quote = ({quote,updateQuote}) => {
   
     const [edit,setEdit]=useState(false);
     const [edittedText,setEdittedText]=useState(quote.text);
     const {pathname}=useLocation();
 
     async function saveHandler(){
-      console.log('save Handler');
+      try {
+        const response= await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/quotes/${quote._id}`,
+          {text:edittedText},
+          {
+            headers:{
+              Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
+          })
+          console.log(response);
+          if(response.status==200){
+            updateQuote(response.data);
+            toast.success('Quote updated successfully');
+            setEdit(false);
+          }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+        
       
     }
     
