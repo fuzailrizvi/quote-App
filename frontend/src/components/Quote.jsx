@@ -18,7 +18,7 @@ const Quote = ({quote,updateQuote}) => {
               Authorization:`Bearer ${localStorage.getItem('token')}`
             }
           })
-          console.log(response);
+          console.log(response.data);
           if(response.status==200){
             updateQuote(response.data);
             toast.success('Quote updated successfully');

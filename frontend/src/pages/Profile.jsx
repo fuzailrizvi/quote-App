@@ -19,6 +19,8 @@ const Profile = ({user}) => {
      
       
       if(res.status==200){
+        console.log(res);
+        
         setUserQuotes(res.data.quotes);
       }
     } catch (error) {
