@@ -3,7 +3,7 @@ import {useLocation} from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-hot-toast';
 
-const Quote = ({quote,updateQuote}) => {
+const Quote = ({quote,updateQuote,deleteQuote}) => {
   
     const [edit,setEdit]=useState(false);
     const [edittedText,setEdittedText]=useState(quote.text);
@@ -18,8 +18,9 @@ const Quote = ({quote,updateQuote}) => {
               Authorization:`Bearer ${localStorage.getItem('token')}`
             }
           })
-          console.log(response.data);
+          
           if(response.status==200){
+           
             updateQuote(response.data);
             toast.success('Quote updated successfully');
             setEdit(false);
@@ -29,6 +30,24 @@ const Quote = ({quote,updateQuote}) => {
       }
         
       
+    }
+
+    async function deleteHandler(){
+      try {
+        const res=await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/v1/quotes/${quote._id}`,{
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+          }
+        })
+  
+        if(res.status==200){
+          
+          deleteQuote(res.data);
+          toast.success('Quote Deleted Successfully');
+        }
+      } catch (error) {
+        toast.error('Some Error occured in deleting');
+      }
     }
     
     return (

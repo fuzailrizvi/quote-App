@@ -19,7 +19,6 @@ const Profile = ({user}) => {
      
       
       if(res.status==200){
-        console.log(res);
         
         setUserQuotes(res.data.quotes);
       }
@@ -37,13 +36,17 @@ const Profile = ({user}) => {
     setUserQuotes(newQuotes);
   }
 
+  function deleteQuote(id) {
+    setUserQuotes(prevQuotes => prevQuotes.filter(quote => quote._id !== id));
+  }
+
   useEffect(()=>{
     getUserQuotes();
   },[])
   
   return (
     <div>
-      {userQuotes.map(quote=> <Quote key={quote._id} quote={quote} updateQuote={updateQuote}/>)}
+      {userQuotes.map(quote=> <Quote key={quote._id} quote={quote} updateQuote={updateQuote} deleteQuote={deleteQuote}/>)}
     </div>
   )
 }

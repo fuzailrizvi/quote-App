@@ -57,7 +57,7 @@ const updateQuote = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const quote = await QuoteModel.findByIdAndUpdate(id, body).populate({
+    const quote = await QuoteModel.findByIdAndUpdate(id, body,{ new: true }).populate({
       path:'author',
       select:'fullName'
     });
@@ -74,7 +74,7 @@ const updateQuote = async (req, res) => {
 const deleteQuote = async (req, res) => {
   try {
     const id = req.params.id;
-    await QuoteModel.findByIdAndDelete(id);
+    await QuoteModel.findByIdAndDelete(id,{ new: true });
     res.status(200).json(id);
   } catch (error) {
     console.log(error);
