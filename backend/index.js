@@ -25,6 +25,9 @@ mongoose.connect(`${Mongo_URL}`,{dbName:'quoteApp'})
 
 app.use(express.json());
 app.use(cors());
+app.get('/',(req,res)=>{
+    res.send('Backend Working Fine');
+})
 app.use("/api/v1/auth",authrouter);
 app.use("/api/v1/quotes",quoteRouter);
 app.use("/api/v1/users",userRouter);
