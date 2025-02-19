@@ -2,10 +2,19 @@ const User = require("./models/User.model");
 const mongoose=require('mongoose');
 const bcrypt=require('bcrypt');
 const Quote = require("./models/Quote.model");
+require('dotenv').config();
+const Mongo_URL=process.env.Mongo_URL;
 
-mongoose.connect('mongodb://127.0.0.1:27017/QuoteDB')
-.then(()=>console.log('DB Connected Successfully'))
+mongoose.connect(`${Mongo_URL}`,{dbName:'quoteApp'})
+.then(()=>{
+    console.log('DB Connected Successfully');
+    
+})
 .catch((err)=>console.log(err));
+
+// mongoose.connect('mongodb://127.0.0.1:27017/QuoteDB')
+// .then(()=>console.log('DB Connected Successfully'))
+// .catch((err)=>console.log(err));
 
 const randomQuotesGenerator=()=>{
     const randomQuotes=[
